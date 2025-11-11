@@ -6,10 +6,11 @@ import java.sql.SQLException;
 
 public class DBConnection {
     private static final String URL = "jdbc:mysql://localhost:3306/campussync";
-    private static final String USER = "root";
-    private static final String PASSWORD = "Nn2025!#MySQL";
+    private static final String USERNAME = "campussync_app";
+    private static final String PASSWORD = "StrongPass_2025!";
 
-    public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(URL, USER, PASSWORD);
+    public static Connection getConnection() throws SQLException, ClassNotFoundException {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        return DriverManager.getConnection(URL, USERNAME, PASSWORD);
     }
 }

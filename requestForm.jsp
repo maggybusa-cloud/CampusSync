@@ -44,8 +44,8 @@
             <h1><%= title %></h1>
             <p style="color:var(--muted); margin-bottom:20px;"><%= description %></p>
 
-            <!-- FAKE SUBMIT FORM -->
-            <form method="get" action="requestSuccess.jsp" class="form">
+            <!-- Submit form to servlet -->
+            <form method="post" action="<%= request.getContextPath() %>/SubmitRequestServlet" class="form">
                 <!-- Email Field -->
                 <div class="field">
                     <span>Your Email</span>
@@ -74,7 +74,10 @@
                                   transition:border 0.15s, box-shadow 0.15s;height:40px;">
                 </div>
 
-                <!-- FAKE SUBMIT BUTTON -->
+                <!-- Preserve request context/type from page parameter -->
+                <input type="hidden" name="requestType" value="<%= requestType %>">
+
+                <!-- Submit Button -->
                 <button type="submit" class="btn">Submit Request</button>
             </form>
 
