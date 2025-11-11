@@ -1,0 +1,174 @@
+:root {
+    --blue: #3b82f6;
+    --dark-blue: #1e3a8a;
+    --green: #10b981;
+    --orange: #f97316;
+    --bg-light: #f9fbfd;
+}
+
+body {
+    font-family: "Inter", sans-serif;
+    background: var(--bg-light);
+    margin: 0;
+    color: #333;
+}
+
+/* === HEADER === */
+.main-header {
+    background: var(--blue);
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 25px;
+}
+
+.logo {
+    font-weight: 700;
+    font-size: 1.3rem;
+}
+
+.nav-right {
+    position: relative;
+}
+
+.user-name {
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 35px;
+    right: 0;
+    background: #fff;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.dropdown-menu.show {
+    display: block;
+}
+
+.dropdown-menu a {
+    display: block;
+    padding: 10px 20px;
+    color: #333;
+    text-decoration: none;
+}
+.dropdown-menu a:hover {
+    background: var(--bg-light);
+}
+
+/* === HERO SECTION === */
+.hero {
+    background: linear-gradient(90deg, var(--blue), var(--dark-blue));
+    color: #fff;
+    padding: 30px;
+}
+.hero h1 {
+    margin: 0 0 10px 0;
+    font-size: 2rem;
+}
+.hero p {
+    margin: 0 0 15px;
+    opacity: 0.9;
+}
+.button-row {
+    display: flex;
+    gap: 10px;
+}
+.btn {
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+}
+.btn.primary {
+    background: var(--green);
+    color: #fff;
+}
+.btn.outline {
+    background: transparent;
+    border: 2px solid #fff;
+    color: #fff;
+}
+.btn.outline:hover {
+    background: #fff;
+    color: var(--blue);
+}
+
+/* === DASHBOARD GRID === */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1.5fr 1fr;
+    gap: 20px;
+    padding: 30px;
+}
+
+.dashboard-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+.dashboard-card h2 {
+    color: var(--blue);
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.course-item {
+    margin-bottom: 15px;
+    line-height: 1.4;
+}
+.view-link {
+    color: var(--blue);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+/* === CALENDAR === */
+.calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    text-align: center;
+    font-weight: 600;
+    gap: 5px;
+    margin-bottom: 15px;
+}
+.calendar div {
+    background: var(--bg-light);
+    padding: 10px;
+    border-radius: 6px;
+}
+.calendar-placeholder {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+/* === RIGHT COLUMN === */
+.dashboard-column {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.image-card img {
+    width: 100%;
+    border-radius: 10px;
+}
+
+/* === FOOTER === */
+footer {
+    text-align: center;
+    background: var(--blue);
+    color: #fff;
+    padding: 15px;
+    margin-top: 30px;
+    font-size: 0.9rem;
+}
