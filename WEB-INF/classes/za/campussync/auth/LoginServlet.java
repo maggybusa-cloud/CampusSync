@@ -19,7 +19,7 @@ public class LoginServlet extends HttpServlet {
         System.out.println("Received login attempt for: " + email);
 
         try (Connection conn = DBConnection.getConnection()) {
-            PreparedStatement stmt = conn.prepareStatement("SELECT password, role FROM users WHERE email = ?");
+            PreparedStatement stmt = conn.prepareStatement("SELECT user_id, first_name, password, role FROM users WHERE email = ?");
             stmt.setString(1, email);
             ResultSet rs = stmt.executeQuery();
 
@@ -31,6 +31,8 @@ public class LoginServlet extends HttpServlet {
                 return;
             }
 
+            int userId = rs.getInt("user_id");
+            String firstName = rs.getString("first_name");
             String dbPassword = rs.getString("password");
             String role = rs.getString("role");
 
@@ -45,6 +47,8 @@ public class LoginServlet extends HttpServlet {
             HttpSession session = request.getSession();
             session.setAttribute("email", email);
             session.setAttribute("role", role);
+            session.setAttribute("firstName", firstName);
+            session.setAttribute("userID", userId);
 
             if ("admin".equals(role)) {
                 response.sendRedirect("adminDashboard.jsp");

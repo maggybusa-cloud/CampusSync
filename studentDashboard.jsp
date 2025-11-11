@@ -1,14 +1,33 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="za.campussync.db.DBConnection,java.sql.*,java.util.*" %>
 <%
     String studentName = (session != null && session.getAttribute("firstName") != null)
         ? (String) session.getAttribute("firstName")
         : "Student";
+
+    // Build course list for Subject dropdown
+    List<Map<String, Object>> courseList = new ArrayList<>();
+    try {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        try (Connection c = DBConnection.getConnection();
+             PreparedStatement ps = c.prepareStatement("SELECT course_id, course_name FROM courses ORDER BY course_name");
+             ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                Map<String, Object> m = new HashMap<>();
+                m.put("id", rs.getObject("course_id"));
+                m.put("name", rs.getString("course_name"));
+                courseList.add(m);
+            }
+        }
+    } catch (Exception ex) {
+        ex.printStackTrace();
+    }
 %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>CampusSync | Student Dashboard</title>
+    <title>CampusSync | <%= studentName %> Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet">
     <style>
@@ -110,29 +129,137 @@
 
 <!-- 🔷 ADD TASK MODAL -->
 <div class="modal fade" id="addTaskModal" tabindex="-1" aria-labelledby="addTaskModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="addTaskModalLabel">Add New Task</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="AddTaskServlet" method="post">
+            <form action="<%= request.getContextPath() %>/AddTaskServlet" method="post">
                 <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="taskTitle" class="form-label">Task Title</label>
-                        <input type="text" class="form-control" id="taskTitle" name="title" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="taskDate" class="form-label">Due Date</label>
-                        <input type="date" class="form-control" id="taskDate" name="dueDate" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="taskDescription" class="form-label">Description</label>
-                        <textarea class="form-control" id="taskDescription" name="description" rows="3"></textarea>
+                    <div class="row g-3">
+                        <div class="col-md-8">
+                            <label for="taskTitle" class="form-label">Title</label>
+                            <input type="text" class="form-control" id="taskTitle" name="title" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="subject" class="form-label">Subject</label>
+                            <select id="subject" name="courseId" class="form-select" required>
+                                <option value="">Select Subject</option>
+                                <%
+                                    for (Map<String, Object> cRow : courseList) {
+                                %>
+                                    <option value="<%= cRow.get("id") %>"><%= cRow.get("name") %></option>
+                                <%
+                                    }
+                                %>
+                            </select>
+                        </div>
+
+                        <div class="col-12">
+                            <label for="taskDescription" class="form-label">Description</label>
+                            <textarea class="form-control" id="taskDescription" name="description" rows="3" placeholder="Optional"></textarea>
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label d-block">Task Type</label>
+                            <div class="d-flex flex-wrap gap-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="taskType" id="typeReminder" value="Reminder" checked>
+                                    <label class="form-check-label" for="typeReminder">Reminder</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="taskType" id="typeRevision" value="Revision">
+                                    <label class="form-check-label" for="typeRevision">Revision</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="taskType" id="typeEssay" value="Essay">
+                                    <label class="form-check-label" for="typeEssay">Essay</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="taskType" id="typeGroup" value="Group Project">
+                                    <label class="form-check-label" for="typeGroup">Group Project</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="taskType" id="typeReading" value="Reading">
+                                    <label class="form-check-label" for="typeReading">Reading</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="taskType" id="typeMeeting" value="Meeting">
+                                    <label class="form-check-label" for="typeMeeting">Meeting</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label d-block">Occurs</label>
+                            <div class="d-flex gap-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="occurs" id="occursOnce" value="once" checked onchange="toggleOccurs()">
+                                    <label class="form-check-label" for="occursOnce">Once</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="occurs" id="occursRepeating" value="repeating" onchange="toggleOccurs()">
+                                    <label class="form-check-label" for="occursRepeating">Repeating</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Once fields -->
+                        <div id="onceFields" class="row g-3">
+                            <div class="col-md-6">
+                                <label for="dueDate" class="form-label">Due Date</label>
+                                <input type="date" class="form-control" id="dueDate" name="dueDate">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="dueTime" class="form-label">Time</label>
+                                <input type="time" class="form-control" id="dueTime" name="dueTime">
+                            </div>
+                        </div>
+
+                        <!-- Repeating fields -->
+                        <div id="repeatFields" class="row g-3 d-none">
+                            <div class="col-12">
+                                <label class="form-label d-block">Days of the week</label>
+                                <div class="d-flex flex-wrap gap-3">
+                                    <label class="form-check"><input class="form-check-input" type="checkbox" name="days" value="Mon"> Mon</label>
+                                    <label class="form-check"><input class="form-check-input" type="checkbox" name="days" value="Tue"> Tue</label>
+                                    <label class="form-check"><input class="form-check-input" type="checkbox" name="days" value="Wed"> Wed</label>
+                                    <label class="form-check"><input class="form-check-input" type="checkbox" name="days" value="Thu"> Thu</label>
+                                    <label class="form-check"><input class="form-check-input" type="checkbox" name="days" value="Fri"> Fri</label>
+                                    <label class="form-check"><input class="form-check-input" type="checkbox" name="days" value="Sat"> Sat</label>
+                                    <label class="form-check"><input class="form-check-input" type="checkbox" name="days" value="Sun"> Sun</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="startTime" class="form-label">Start Time</label>
+                                <input type="time" class="form-control" id="startTime" name="startTime">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="endTime" class="form-label">End Time</label>
+                                <input type="time" class="form-control" id="endTime" name="endTime">
+                            </div>
+                            <div class="col-12 d-flex align-items-center mt-2">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" role="switch" id="toggleDateRange" onchange="toggleDateRange()">
+                                    <label class="form-check-label" for="toggleDateRange">Add start/end dates?</label>
+                                </div>
+                            </div>
+                            <div id="dateRangeFields" class="row g-3 d-none mt-1">
+                                <div class="col-md-6">
+                                    <label for="startDate" class="form-label">Start Date</label>
+                                    <input type="date" class="form-control" id="startDate" name="startDate">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="endDate" class="form-label">End Date</label>
+                                    <input type="date" class="form-control" id="endDate" name="endDate">
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Save Task</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                 </div>
             </form>
@@ -174,6 +301,39 @@
             document.getElementById('planner').scrollIntoView({ behavior: 'smooth' });
         });
     });
+</script>
+<script>
+    function toggleOccurs() {
+        const once = document.getElementById('occursOnce').checked;
+        const onceFields = document.getElementById('onceFields');
+        const repeatFields = document.getElementById('repeatFields');
+
+        if (once) {
+            onceFields.classList.remove('d-none');
+            repeatFields.classList.add('d-none');
+            document.getElementById('dueDate')?.setAttribute('required', 'required');
+            document.getElementById('dueTime')?.setAttribute('required', 'required');
+            document.getElementById('startTime')?.removeAttribute('required');
+            document.getElementById('endTime')?.removeAttribute('required');
+        } else {
+            onceFields.classList.add('d-none');
+            repeatFields.classList.remove('d-none');
+            document.getElementById('dueDate')?.removeAttribute('required');
+            document.getElementById('dueTime')?.removeAttribute('required');
+            document.getElementById('startTime')?.setAttribute('required', 'required');
+            document.getElementById('endTime')?.setAttribute('required', 'required');
+        }
+    }
+
+    function toggleDateRange() {
+        const checked = document.getElementById('toggleDateRange').checked;
+        const fields = document.getElementById('dateRangeFields');
+        if (checked) {
+            fields.classList.remove('d-none');
+        } else {
+            fields.classList.add('d-none');
+        }
+    }
 </script>
 </body>
 </html>
