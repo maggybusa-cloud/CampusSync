@@ -131,6 +131,7 @@
                         <button class="btn btn-outline-primary" onclick="showTab('students', document.querySelector('.tabs .tab-button:nth-child(2)'))">Manage Students</button>
                         <button class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#courseModal">Add New Course</button>
                         <button class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#eventModal">Add Event</button>
+                        <a class="btn btn-outline-primary" href="adminCalendar.jsp">View Calendar</a>
                         <button class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#noticeModal">Post New Notice</button>
                         <button class="btn btn-outline-secondary" onclick="showTab('requests', document.querySelector('.tabs .tab-button:nth-child(6)'))">View All Requests</button>
                     </div>

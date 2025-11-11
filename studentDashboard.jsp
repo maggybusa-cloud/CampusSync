@@ -121,8 +121,11 @@
     </div>
     <div class="tab-pane fade" id="planner">
         <div class="container mt-4">
-            <h5>Your Task Planner</h5>
-            <p>Any personal tasks added will be visible here.</p>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="mb-0">Planner</h5>
+                <button type="button" class="btn btn-add-task" data-bs-toggle="modal" data-bs-target="#addTaskModal">Add Task</button>
+            </div>
+            <div id="plannerCalendar" class="bg-white rounded-3 shadow p-3"></div>
         </div>
     </div>
 </div>
@@ -282,6 +285,18 @@
             slotMaxTime: '20:00:00'
         });
         calendar.render();
+
+        // Planner calendar with day/week/month views
+        const plannerEl = document.getElementById('plannerCalendar');
+        if (plannerEl) {
+            const planner = new FullCalendar.Calendar(plannerEl, {
+                initialView: 'timeGridWeek',
+                height: 'auto',
+                headerToolbar: { left: 'prev,next today', center: 'title', right: 'dayGridMonth,timeGridWeek,timeGridDay' },
+                events: 'getCalendarEvents.jsp'
+            });
+            planner.render();
+        }
 
         // Enable tab switching
         const tabs = document.querySelectorAll('.nav-link');

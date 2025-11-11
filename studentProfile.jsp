@@ -1,13 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.*, java.util.Map" %>
 <%
-    String studentName = (session != null && session.getAttribute("username") != null)
-        ? (String) session.getAttribute("username") : "Student";
-    int studentNumber = (request.getAttribute("studentNumber") != null)
-        ? (int) request.getAttribute("studentNumber") : 0;
+    String sessionEmail = (session != null && session.getAttribute("email") != null) ? (String) session.getAttribute("email") : (String) session.getAttribute("username");
+    String displayName = (request.getAttribute("fullName") != null) ? (String) request.getAttribute("fullName") : "Student";
+    String initials = displayName.substring(0,1).toUpperCase();
+    String studentNumber = (request.getAttribute("studentNumber") != null) ? String.valueOf(request.getAttribute("studentNumber")) : "";
     String programme = (String) request.getAttribute("programme");
     String year = (String) request.getAttribute("year");
     String campus = (String) request.getAttribute("campus");
+    String email = (String) request.getAttribute("email");
+    String phone = (String) request.getAttribute("phone");
     List<Map<String, String>> courses = (List<Map<String, String>>) request.getAttribute("courses");
     List<String> clubs = (List<String>) request.getAttribute("clubs");
 %>
@@ -28,8 +30,10 @@
             <h4 class="mb-0 fw-bold text-white">CampusSync</h4>
         </div>
         <div class="dropdown">
-            <a class="text-white fw-semibold dropdown-toggle text-decoration-none" href="#" role="button" data-bs-toggle="dropdown">
-                Hi, <%= studentName %>
+            <a class="text-white text-decoration-none" href="#" role="button" data-bs-toggle="dropdown">
+                <span class="rounded-circle bg-white text-primary fw-bold d-inline-flex justify-content-center align-items-center" style="width: 40px; height: 40px; line-height:40px;">
+                    <%= initials %>
+                </span>
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
                 <li><a class="dropdown-item" href="studentProfile.jsp">My Profile</a></li>
@@ -45,10 +49,10 @@
         <div class="d-flex align-items-center mb-4">
             <div class="rounded-circle bg-primary text-white fw-bold d-flex justify-content-center align-items-center"
                  style="width: 60px; height: 60px; font-size: 1.5rem;">
-                <%= studentName.substring(0,1).toUpperCase() %>
+                <%= initials %>
             </div>
             <div class="ms-3">
-                <h4 class="fw-bold mb-0"><%= studentName %></h4>
+                <h4 class="fw-bold mb-0"><%= displayName %></h4>
                 <small class="text-muted">Student Profile</small>
             </div>
         </div>
@@ -57,6 +61,8 @@
         <h5 class="fw-bold mb-3 text-primary">Personal Information</h5>
         <table class="table table-borderless">
             <tr><td><strong>Student Number:</strong></td><td><%= studentNumber %></td></tr>
+            <tr><td><strong>Email:</strong></td><td><%= email != null ? email : sessionEmail %></td></tr>
+            <tr><td><strong>Phone:</strong></td><td><%= phone != null ? phone : "" %></td></tr>
             <tr><td><strong>Programme:</strong></td><td><%= programme %></td></tr>
             <tr><td><strong>Year:</strong></td><td><%= year %></td></tr>
             <tr><td><strong>Campus:</strong></td><td><%= campus %></td></tr>

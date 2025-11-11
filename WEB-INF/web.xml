@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd"
+         version="5.0">
+
+    <!-- Auth -->
+    <servlet>
+        <servlet-name>LoginServlet</servlet-name>
+        <servlet-class>za.campussync.auth.LoginServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LoginServlet</servlet-name>
+        <url-pattern>/LoginServlet</url-pattern>
+    </servlet-mapping>
+
+    <!-- Support Requests -->
+    <servlet>
+        <servlet-name>SubmitRequestServlet</servlet-name>
+        <servlet-class>za.campussync.support.SubmitRequestServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SubmitRequestServlet</servlet-name>
+        <url-pattern>/SubmitRequestServlet</url-pattern>
+    </servlet-mapping>
+
+    <!-- Admin: Events -->
+    <servlet>
+        <servlet-name>AddEventServlet</servlet-name>
+        <servlet-class>za.campussync.Admin.AddEventServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddEventServlet</servlet-name>
+        <url-pattern>/AddEventServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>EditEventServlet</servlet-name>
+        <servlet-class>za.campussync.Admin.EditEventServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>EditEventServlet</servlet-name>
+        <url-pattern>/EditEventServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>RemoveEventServlet</servlet-name>
+        <servlet-class>za.campussync.Admin.RemoveEventServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RemoveEventServlet</servlet-name>
+        <url-pattern>/RemoveEventServlet</url-pattern>
+    </servlet-mapping>
+
+    <!-- Admin: Notices -->
+    <servlet>
+        <servlet-name>AddNoticeServlet</servlet-name>
+        <servlet-class>za.campussync.Admin.AddNoticeServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddNoticeServlet</servlet-name>
+        <url-pattern>/AddNoticeServlet</url-pattern>
+    </servlet-mapping>
+
+    <!-- Admin: Courses -->
+    <servlet>
+        <servlet-name>AddCourseServlet</servlet-name>
+        <servlet-class>za.campussync.Admin.AddCourseServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddCourseServlet</servlet-name>
+        <url-pattern>/AddCourseServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>EditCourseServlet</servlet-name>
+        <servlet-class>za.campussync.Admin.EditCourseServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>EditCourseServlet</servlet-name>
+        <url-pattern>/EditCourseServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>RemoveCourseServlet</servlet-name>
+        <servlet-class>za.campussync.Admin.RemoveCourseServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RemoveCourseServlet</servlet-name>
+        <url-pattern>/RemoveCourseServlet</url-pattern>
+    </servlet-mapping>
+
+    <!-- Admin: Students -->
+    <servlet>
+        <servlet-name>AddStudentServlet</servlet-name>
+        <servlet-class>za.campussync.Admin.AddStudentServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddStudentServlet</servlet-name>
+        <url-pattern>/AddStudentServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>EditStudentServlet</servlet-name>
+        <servlet-class>za.campussync.Admin.EditStudentServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>EditStudentServlet</servlet-name>
+        <url-pattern>/EditStudentServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>RemoveStudentServlet</servlet-name>
+        <servlet-class>za.campussync.Admin.RemoveStudentServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RemoveStudentServlet</servlet-name>
+        <url-pattern>/RemoveStudentServlet</url-pattern>
+    </servlet-mapping>
+
+    <!-- Admin: Clubs -->
+    <servlet>
+        <servlet-name>AddClubServlet</servlet-name>
+        <servlet-class>za.campussync.Admin.AddClubServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddClubServlet</servlet-name>
+        <url-pattern>/AddClubServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>EditClubServlet</servlet-name>
+        <servlet-class>za.campussync.Admin.EditClubServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>EditClubServlet</servlet-name>
+        <url-pattern>/EditClubServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>RemoveClubServlet</servlet-name>
+        <servlet-class>za.campussync.Admin.RemoveClubServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RemoveClubServlet</servlet-name>
+        <url-pattern>/RemoveClubServlet</url-pattern>
+    </servlet-mapping>
+
+    <!-- Admin: Requests -->
+    <servlet>
+        <servlet-name>UpdateRequestStatusServlet</servlet-name>
+        <servlet-class>za.campussync.Admin.UpdateRequestStatusServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UpdateRequestStatusServlet</servlet-name>
+        <url-pattern>/UpdateRequestStatusServlet</url-pattern>
+    </servlet-mapping>
+
+</web-app>
