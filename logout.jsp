@@ -38,16 +38,12 @@
                     </p>
 
                     <!-- Button to redirect back to the main login page -->
-                    <a href="index.jsp" class="btn" 
+                    <a href="login.jsp" class="btn" 
                        style="display: block; text-decoration: none; width: 100%; margin-top: 10px;">
                         Return to Sign In
                     </a>
                 </div>
 
-                <p class="meta center">
-                    Need help? 
-                    <a class="link" href="#">Contact Admin</a>
-                </p>
             </main>
         </div>
     </div>
