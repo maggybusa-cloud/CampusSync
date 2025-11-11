@@ -19,8 +19,7 @@
             <aside class="promo">
                 <h2 class="tagline">Plan Smart...<br><em>Sync Everything</em></h2>
                 <div class="logo-container">
-                    
-                    <img class="brand" src="images/CampusSync logo (transparent).png" alt="Campus Sync logo" />
+                    <img class="brand" src="<%= request.getContextPath() %>/images/campus-sync-logo.png" alt="CampusSync Logo" />
                 </div>
             </aside>
 
